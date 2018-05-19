@@ -87,8 +87,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 720,
-      "height": 1080
+      "width": 751,
+      "height": 1181
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -96,8 +96,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 360,
-      "y": 540
+      "x": 375.5,
+      "y": 590.5
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -146,8 +146,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 720,
-      "height": 1080
+      "width": 751,
+      "height": 1181
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -463,8 +463,8 @@
     "_enabled": true,
     "_designResolution": {
       "__type__": "cc.Size",
-      "width": 720,
-      "height": 1080
+      "width": 751,
+      "height": 1181
     },
     "_fitWidth": true,
     "_fitHeight": false
