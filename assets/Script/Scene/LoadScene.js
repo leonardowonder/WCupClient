@@ -8,10 +8,15 @@ import * as async from 'async';
 import SceneManager from '../Manager/SceneManager';
 import ConfigManager from '../Manager/ConfigManager';
 import SceneIdConfigManager from '../Manager/SceneIdConfigManager';
-import { EmSceneId } from '../Define/CommonDefine';
+import {
+    EmSceneId
+} from '../Define/CommonDefine';
+import PrefabManager, {
+    EmPrefabEnum
+} from '../Manager/PrefabManager';
 
 @ccclass
-class LoginScene extends cc.Component{
+class LoginScene extends cc.Component {
     onDestroy() {
 
     }
@@ -27,20 +32,25 @@ class LoginScene extends cc.Component{
     _loadConfigs(callback) {
         ConfigManager.loadCfgs(callback);
     }
-    
+
     _doLoadings() {
         async.waterfall(
             [
+                (next) => {
+                    PrefabManager.showPrefab(EmPrefabEnum.Loading);
+                    next();
+                },
                 (next) => {
                     this._loadConfigs(next);
                 },
                 (next) => {
                     setTimeout(() => {
                         next();
-                    }, 2000);
+                    }, 3000);
                 }
             ],
             (err) => {
+                PrefabManager.hidePrefab(EmPrefabEnum.Loading);
                 this._jumpToLoginScene();
             }
         )

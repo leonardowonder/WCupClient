@@ -4,14 +4,14 @@ const {
 } = cc._decorator;
 
 export let EmPrefabEnum = {
-    HelloWorld: 0,
+    Loading: 0,
 }
 
 @ccclass
 class PrefabManager extends cc.Component {
     static s_prefabConfig = [{
-        path: 'Prefab/HelloWorld',
-        componentName: 'HelloWorld'
+        path: 'Prefab/Loading',
+        componentName: 'Loading'
     }];
 
     _getCanvasNode() {
