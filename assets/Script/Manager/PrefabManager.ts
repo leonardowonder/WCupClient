@@ -14,6 +14,8 @@ class PrefabManager extends cc.Component {
         componentName: 'Loading'
     }];
 
+    _loadingList: string[] = []
+
     _getCanvasNode() {
         let sceneNode = cc.director.getScene();
         let ret = null;

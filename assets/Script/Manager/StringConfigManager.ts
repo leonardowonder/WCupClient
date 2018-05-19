@@ -4,6 +4,8 @@ const {
 } = cc._decorator;
 
 class StringConfigManager {
+    m_config = null;
+    
     loadRes(callback) {
         cc.loader.loadRes('Config/StringCfg', (err, res) => {
             if (err == null) {
