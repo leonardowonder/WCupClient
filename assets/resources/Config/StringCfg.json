@@ -1,0 +1,121 @@
+{
+    "cfg": {
+        "create_mtt_match": {
+            "cn": "{0}的比赛场"
+        },
+        "create_mtt_brief": {
+            "cn": "比赛场"
+        },
+        "mtt_set_time_err": {
+            "cn": "请填写正确时间"
+        },
+        "mtt_info_detail_roomId" : {
+            "cn": "编号：{0}"
+        },
+        "mtt_info_detail_startTime" : {
+            "cn": "{0}年{1}月{2}日 {3}"
+        },
+        "mtt_info_detail_initialCoin" : {
+            "cn": "初始积分：{0}"
+        },
+        "mtt_info_detail_dragInCnt" : {
+            "cn": "参与人数：{0}/{1}"
+        },
+        "mtt_info_detail_rbt" : {
+            "cn": "涨道时间：{0}分钟"
+        },
+        "mtt_info_detail_enterFee" : {
+            "cn": "报名费用：{0}"
+        },
+        "mtt_info_detail_rebuyLevel" : {
+            "cn": "重购次数：{0}个级别可以重购，上限{1}次"
+        },
+        "mtt_info_detail_delayEnter" : {
+            "cn": "延迟报名：{0}个级别内可以延迟报名"
+        },
+        "GameRoom_MttInfo_RaiseItem_level" : {
+            "cn": "{0}"
+        },
+        "GameRoom_MttInfo_RaiseItem_dao" : {
+            "cn": "{0}"
+        },
+        "GameRoom_MttInfo_RaiseItem_ante" : {
+            "cn": "{0}"
+        },
+        "GameRoom_MttInfo_RaiseItem_rbt" : {
+            "cn": "{0}分钟"
+        },
+        "mtt_apply_enroll_failed" : {
+            "cn": "未知错误"
+        },
+        "mtt_apply_enroll_failed_10" : {
+            "cn": "未知错误"
+        },
+        "mtt_apply_enroll_failed_11" : {
+            "cn": "不能重构"
+        },
+        "mtt_apply_enroll_failed_1" : {
+            "cn": "等待审核"
+        },
+        "mtt_apply_enroll_failed_14" : {
+            "cn": "不需要重构"
+        },
+        "mtt_apply_enroll_failed_12" : {
+            "cn": "不能报名"
+        },
+        "mtt_apply_enroll_failed_13" : {
+            "cn": "超过重构上限"
+        },
+        "mtt_apply_enroll_enroll" : {
+            "cn": "报  名"
+        },
+        "mtt_apply_enroll_rebuy" : {
+            "cn": "复 活"
+        },
+        "tokenInItem_room_name" : {
+            "cn": "{0} | 房间ID:{1}"
+        },
+        "tokenInItem_req_rebuy" : {
+            "cn": "重构费：{0}"
+        },
+        "tokenInItem_req_enroll" : {
+            "cn": "报名费：{0}"
+        },
+        "tokenInItem_req_tokenIn" : {
+            "cn": "请求带入{0}"
+        },
+        "gameroom_mtt_info_detail_roomId" : {
+            "cn": "编号：{0}"
+        },
+        "gameroom_mtt_info_detail_startTime" : {
+            "cn": "{0}年{1}月{2}日 {3}"
+        },
+        "gameroom_mtt_info_detail_initialCoin" : {
+            "cn": "{0}"
+        },
+        "gameroom_mtt_info_detail_dragInCnt" : {
+            "cn": "{0}/{1}"
+        },
+        "gameroom_mtt_info_detail_rbt" : {
+            "cn": "{0}分钟"
+        },
+        "gameroom_mtt_info_detail_enterFee" : {
+            "cn": "{0}"
+        },
+        "gameroom_mtt_info_detail_rebuyLevel" : {
+            "cn": "{0}个级别可以重购，上限{1}次"
+        },
+        "gameroom_mtt_info_detail_delayEnter" : {
+            "cn": "{0}个级别内可以延迟报名"
+        },
+        "tokenInRecordItem_req_rebuy" : {
+            "cn": "请求重构：{0}"
+        },
+        "tokenInRecordItem_req_enroll" : {
+            "cn": "请求报名：{0}"
+        },
+        "tokenInRecordItem_req_tokenIn" : {
+            "cn": "请求带入{0}"
+        }
+    }
+}
