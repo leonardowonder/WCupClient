@@ -21,8 +21,13 @@ class LoginScene extends cc.Component {
 
     }
 
+    test() {
+        cc.log('test start');
+    }
+
     onLoad() {
-        this._doLoadings()
+        // this.test();
+        this._doLoadings();
     }
 
     _jumpToLoginScene() {

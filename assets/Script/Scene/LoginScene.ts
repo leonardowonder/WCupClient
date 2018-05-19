@@ -20,8 +20,9 @@ class LoginScene extends cc.Component{
     start() {}
 
     onLoginClick() {
-        // PrefabManager.showPrefab(EmPrefabEnum.Loading);
+        // for (let i=0; i<5; ++i) {
+        //     PrefabManager.showPrefab(EmPrefabEnum.Loading);
+        // }
         SceneManager.changeScene(SceneIdConfigManager.getSceneIdByKey(EmSceneId.MainScene));
     }
-
 };

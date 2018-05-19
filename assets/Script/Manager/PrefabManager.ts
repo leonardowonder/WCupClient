@@ -3,6 +3,8 @@ const {
     property
 } = cc._decorator;
 
+import * as _ from 'lodash';
+
 export let EmPrefabEnum = {
     Loading: 0,
 }
@@ -14,7 +16,46 @@ class PrefabManager extends cc.Component {
         componentName: 'Loading'
     }];
 
-    _loadingList: string[] = []
+    _loadingList: number[] = []
+
+    showPrefab(key: number, params: any[] = null, parentNode: cc.Node = null) {
+        let component = this._getComponentByKey(key, parentNode);
+        if (component) {
+            component.node.active = true;
+            this._initPrefab(component.node, key, params);
+        } else {
+            if (this._canLoad(key)) {
+                this._loadingList.push(key);
+                cc.loader.loadRes(PrefabManager.s_prefabConfig[key].path, (err, res) => {
+                    if (err == null) {
+                        let prefab: cc.Node = cc.instantiate(res);
+                        this._initPrefab(prefab, key, params);
+
+                        let rootNode: cc.Node = parentNode;
+                        if (!rootNode) {
+                            rootNode = this._getCanvasNode();
+                        }
+                        prefab.setPosition(0, 0);
+                        rootNode.addChild(prefab);
+                    }
+                    else {
+                        cc.warn('PrefabManager showPrefab load res fail, err =', err);
+                    }
+                    this._removeFromLoadList(key);
+                })
+            }
+            else {
+                cc.warn(`PrefabManger showPrefab already loading key: ${key}`);
+            }
+        }
+    }
+
+    hidePrefab(key: number, parentNode: cc.Node = null) {
+        let component = this._getComponentByKey(key, parentNode);
+        if (component) {
+            component.node.active = false;
+        }
+    }
 
     _getCanvasNode() {
         let sceneNode = cc.director.getScene();
@@ -29,7 +70,7 @@ class PrefabManager extends cc.Component {
         return ret;
     }
 
-    _getComponentByKey(key, parentNode) {
+    _getComponentByKey(key: number, parentNode: cc.Node) {
         let ret = null;
         if (parentNode == null) {
             parentNode = this._getCanvasNode();
@@ -48,7 +89,7 @@ class PrefabManager extends cc.Component {
         return ret;
     }
 
-    _initPrefab(node, key, params) {
+    _initPrefab(node: cc.Node, key: number, params: any[]) {
         let component = node.getComponent(PrefabManager.s_prefabConfig[key].componentName);
         if (component && component.init) {
             if (params == null) {
@@ -60,33 +101,18 @@ class PrefabManager extends cc.Component {
         }
     }
 
-    showPrefab(key, params = null, parentNode = null) {
-        let component = this._getComponentByKey(key, parentNode);
-        if (component) {
-            component.node.active = true;
-            this._initPrefab(component.node, key, params);
-        } else {
-            cc.loader.loadRes(PrefabManager.s_prefabConfig[key].path, function (err, res) {
-                if (err == null) {
-                    let prefab = cc.instantiate(res);
-                    this._initPrefab(prefab, key, params);
-
-                    let rootNode = parentNode;
-                    if (!rootNode) {
-                        rootNode = this._getCanvasNode();
-                    }
-                    prefab.setPosition(0, 0);
-                    rootNode.addChild(prefab);
-                }
-            }.bind(this))
-        }
+    _removeFromLoadList(key: number) {
+        _.remove(this._loadingList, (value: number) => {
+            return value == key;
+        })
     }
 
-    hidePrefab(key, parentNode = null) {
-        let component = this._getComponentByKey(key, parentNode);
-        if (component) {
-            component.node.active = false;
-        }
+    _canLoad(key: number) {
+        let idx = this._loadingList.findIndex((value, index, arr): boolean => {
+            return value == key;
+        })
+
+        return idx == -1;
     }
 }
 

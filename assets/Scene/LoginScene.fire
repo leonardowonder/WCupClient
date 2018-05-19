@@ -63,10 +63,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 14
+        "__id__": 12
       },
       {
-        "__id__": 15
+        "__id__": 13
       }
     ],
     "_prefab": null,
@@ -108,7 +108,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Login",
+    "_name": "rootNode",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -122,13 +122,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 12
+        "__id__": 10
+      },
+      {
+        "__id__": 11
       }
     ],
-    "_prefab": {
-      "__id__": 13
-    },
-    "_id": "celE3EoaJPpaVMJrwUa8st",
+    "_prefab": null,
+    "_id": "54FPxP4olETp8fDn5eExH/",
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
@@ -166,7 +167,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "button",
+    "_name": "LoginButton",
     "_objFlags": 0,
     "_parent": {
       "__id__": 3
@@ -180,22 +181,20 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 8
+        "__id__": 7
       },
       {
-        "__id__": 9
+        "__id__": 8
       }
     ],
-    "_prefab": {
-      "__id__": 11
-    },
-    "_id": "88iN6CQWpBmLAcAw9aCnlS",
+    "_prefab": null,
+    "_id": "5azVG8DjVNT60W34hVb49v",
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
-      "g": 0,
-      "b": 0,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -206,8 +205,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 100
+      "width": 100,
+      "height": 40
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -215,8 +214,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -1,
-      "y": -455
+      "x": 0,
+      "y": -461
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -240,10 +239,8 @@
         "__id__": 6
       }
     ],
-    "_prefab": {
-      "__id__": 7
-    },
-    "_id": "caP8Pr/u5JLZGRCGSE/INd",
+    "_prefab": null,
+    "_id": "d1Yl78/GdNwq/Gddsgxx6Y",
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
@@ -288,27 +285,18 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 20,
+    "_actualFontSize": 40,
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": false,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "进入",
+    "_N$string": "button",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 1
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 3
-    },
-    "asset": null,
-    "fileId": "91b8fwzqND443oZgwDof1o",
-    "sync": false
   },
   {
     "__type__": "cc.Sprite",
@@ -363,7 +351,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 10
+        "__id__": 9
       }
     ],
     "_N$interactable": true,
@@ -414,13 +402,30 @@
     "customEventData": ""
   },
   {
-    "__type__": "cc.PrefabInfo",
-    "root": {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
       "__id__": 3
     },
-    "asset": null,
-    "fileId": "60X+Sxx/NOT66aI/JV0B8B",
-    "sync": false
+    "_enabled": true,
+    "isAlignOnce": false,
+    "_target": null,
+    "_alignFlags": 45,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0
   },
   {
     "__type__": "cc.Sprite",
@@ -447,15 +452,6 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_atlas": null
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 3
-    },
-    "asset": null,
-    "fileId": "c1m6qYx7RGDo2O8X6Ncxvh",
-    "sync": false
   },
   {
     "__type__": "cc.Canvas",
