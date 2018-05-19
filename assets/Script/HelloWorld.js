@@ -19,4 +19,8 @@ cc.Class({
     update: function (dt) {
 
     },
+
+    init() {
+        cc.log('Hello, world init', arguments);
+    }
 });

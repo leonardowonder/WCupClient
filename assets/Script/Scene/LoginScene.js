@@ -6,6 +6,7 @@ const {
 import SceneManager from '../Manager/SceneManager';
 import SceneIdConfigManager from '../Manager/SceneIdConfigManager';
 import { EmSceneId } from '../Define/CommonDefine';
+import PrefabManager, { EmPrefabEnum } from '../Manager/PrefabManager';
 
 @ccclass
 class LoginScene extends cc.Component{
@@ -19,6 +20,7 @@ class LoginScene extends cc.Component{
     start() {}
 
     onLoginClick() {
+        // PrefabManager.showPrefab(EmPrefabEnum.HelloWorld, [1,2,3]);
         SceneManager.changeScene(SceneIdConfigManager.getSceneIdByKey(EmSceneId.MainScene));
     }
 
