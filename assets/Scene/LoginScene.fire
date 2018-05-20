@@ -285,7 +285,7 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 40,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -476,6 +476,9 @@
     "node": {
       "__id__": 2
     },
-    "_enabled": true
+    "_enabled": true,
+    "m_label": {
+      "__id__": 6
+    }
   }
 ]

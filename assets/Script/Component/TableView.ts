@@ -52,7 +52,9 @@ const {
 } = cc._decorator;
 
 import * as _ from 'lodash';
+
 import ViewCell from './ViewCell';
+import FreeScrollView from './FreeScrollView';
 
 let ScrollModel = cc.Enum({ Horizontal: 0, Vertical: 1 });
 let ScrollDirection = cc.Enum({ None: 0, Up: 1, Down: 2, Left: 3, Right: 4 });
@@ -60,7 +62,7 @@ let Direction = cc.Enum({ LEFT_TO_RIGHT__TOP_TO_BOTTOM: 0, TOP_TO_BOTTOM__LEFT_T
 let ViewType = cc.Enum({ Scroll: 0, Flip: 1 });
 
 @ccclass
-export default class TableView extends cc.ScrollView {
+export default class TableView extends FreeScrollView {
     @property(cc.Prefab)
     cell: cc.Prefab = null
 
@@ -164,64 +166,64 @@ export default class TableView extends cc.ScrollView {
         // }
     }
 
-    _addListenerToTouchLayer() {
-        this._touchLayer = new cc.Node();
-        var widget = this._touchLayer.addComponent(cc.Widget);
-        widget.isAlignTop = true;
-        widget.isAlignBottom = true;
-        widget.isAlignLeft = true;
-        widget.isAlignRight = true;
-        widget.top = 0;
-        widget.bottom = 0;
-        widget.left = 0;
-        widget.right = 0;
-        widget.isAlignOnce = false;
-        this._touchLayer.parent = this._view;
+    // _addListenerToTouchLayer() {
+    //     this._touchLayer = new cc.Node();
+    //     var widget = this._touchLayer.addComponent(cc.Widget);
+    //     widget.isAlignTop = true;
+    //     widget.isAlignBottom = true;
+    //     widget.isAlignLeft = true;
+    //     widget.isAlignRight = true;
+    //     widget.top = 0;
+    //     widget.bottom = 0;
+    //     widget.left = 0;
+    //     widget.right = 0;
+    //     widget.isAlignOnce = false;
+    //     this._touchLayer.parent = this._view;
 
-        var self = this;
-        // 添加单点触摸事件监听器
-        this._touchListener = cc.EventListener.create({
-            //todo
-            event: cc.EventListener.TOUCH_ONE_BY_ONE,
-            swallowTouches: false,
-            ower: this._touchLayer,
-            mask: _searchMaskParent(this._touchLayer),
-            onTouchBegan: function (touch, event) {
-                var pos = touch.getLocation();
-                var node = this.ower;
+    //     var self = this;
+    //     // 添加单点触摸事件监听器
+    //     this._touchListener = cc.EventListener.create({
+    //         //todo
+    //         event: cc.EventListener.TOUCH_ONE_BY_ONE,
+    //         swallowTouches: false,
+    //         ower: this._touchLayer,
+    //         mask: _searchMaskParent(this._touchLayer),
+    //         onTouchBegan: function (touch, event) {
+    //             var pos = touch.getLocation();
+    //             var node = this.ower;
 
-                if (node._hitTest(pos, this)) {
-                    self._touchstart(touch);
-                    return true;
-                }
-                return false;
-            },
-            onTouchMoved: function (touch, event) {
-                self._touchmove(touch);
-            },
-            onTouchEnded: function (touch, event) {
-                self._touchend(touch);
-            }
-        });
-        // if (CC_JSB) {
-        //     this._touchListener.retain();
-        // }
-        cc.eventManager.addListener(this._touchListener, this._touchLayer);
-    }
-    _setStopPropagation() {
-        this.node.on('touchstart', function (event) {
-            event.stopPropagation();
-        });
-        this.node.on('touchmove', function (event) {
-            event.stopPropagation();
-        });
-        this.node.on('touchend', function (event) {
-            event.stopPropagation();
-        });
-        this.node.on('touchcancel', function (event) {
-            event.stopPropagation();
-        });
-    }
+    //             if (node._hitTest(pos, this)) {
+    //                 self._touchstart(touch);
+    //                 return true;
+    //             }
+    //             return false;
+    //         },
+    //         onTouchMoved: function (touch, event) {
+    //             self._touchmove(touch);
+    //         },
+    //         onTouchEnded: function (touch, event) {
+    //             self._touchend(touch);
+    //         }
+    //     });
+    //     // if (CC_JSB) {
+    //     //     this._touchListener.retain();
+    //     // }
+    //     cc.eventManager.addListener(this._touchListener, this._touchLayer);
+    // }
+    // _setStopPropagation() {
+    //     this.node.on('touchstart', function (event) {
+    //         event.stopPropagation();
+    //     });
+    //     this.node.on('touchmove', function (event) {
+    //         event.stopPropagation();
+    //     });
+    //     this.node.on('touchend', function (event) {
+    //         event.stopPropagation();
+    //     });
+    //     this.node.on('touchcancel', function (event) {
+    //         event.stopPropagation();
+    //     });
+    // }
 
     //初始化cell
     _initCell(cell: cc.Node, reload: boolean = false) {
@@ -507,11 +509,11 @@ export default class TableView extends cc.ScrollView {
                 this._updateScrollBar(this._getHowMuchOutOfBoundary());
             }, this);
 
-            //给触摸层添加时间
-            this._addListenerToTouchLayer();
-            //禁止tableView点击事件向父级传递
-            this._setStopPropagation();
-            // 存在Widget则在下一帧进行初始化
+            // //给触摸层添加时间
+            // this._addListenerToTouchLayer();
+            // //禁止tableView点击事件向父级传递
+            // this._setStopPropagation();
+            // // 存在Widget则在下一帧进行初始化
 
             if (this.node.getComponent(cc.Widget) || this._view.getComponent(cc.Widget) || this.content.getComponent(cc.Widget)) {
                 this.scheduleOnce(this._initTableView);
@@ -527,81 +529,82 @@ export default class TableView extends cc.ScrollView {
         }
     }
     //*************************************************重写ScrollView方法*************************************************//
-    // stopAutoScroll() {
-    //     if (this._scheduleInit) {
-    //         this.scheduleOnce(function () {
-    //             this.stopAutoScroll();
-    //         });
-    //         return;
-    //     }
-    //     this._scrollDirection = ScrollDirection.None;
-    //     // this._super();
-    // }
-    // scrollToBottom(timeInSecond?: number, attenuated?: boolean) {
-    //     if (this._scheduleInit) {
-    //         this.scheduleOnce(function () {
-    //             this.scrollToBottom(timeInSecond, attenuated);
-    //         });
-    //         return;
-    //     }
-    //     this._scrollDirection = ScrollDirection.Up;
-    //     // this._super(timeInSecond, attenuated);
-    // }
-    // scrollToTop(timeInSecond?: number, attenuated?: boolean) {
-    //     if (this._scheduleInit) {
-    //         this.scheduleOnce(function () {
-    //             this.scrollToTop(timeInSecond, attenuated);
-    //         });
-    //         return;
-    //     }
-    //     this._scrollDirection = ScrollDirection.Down;
-    //     // this._super(timeInSecond, attenuated);
-    // }
-    // scrollToLeft(timeInSecond?: number, attenuated?: boolean) {
-    //     if (this._scheduleInit) {
-    //         this.scheduleOnce(function () {
-    //             this.scrollToLeft(timeInSecond, attenuated);
-    //         });
-    //         return;
-    //     }
-    //     this._scrollDirection = ScrollDirection.Right;
-    //     // this._super(timeInSecond, attenuated);
-    // }
-    // scrollToRight(timeInSecond?: number, attenuated?: boolean) {
-    //     if (this._scheduleInit) {
-    //         this.scheduleOnce(function () {
-    //             this.scrollToRight(timeInSecond, attenuated);
-    //         });
-    //         return;
-    //     }
-    //     this._scrollDirection = ScrollDirection.Left;
-    //     // this._super(timeInSecond, attenuated);
-    // }
-    // scrollToOffset(offset, timeInSecond?: number, attenuated?: boolean) {
-    //     if (this._scheduleInit) {
-    //         this.scheduleOnce(function () {
-    //             this.scrollToOffset(offset, timeInSecond, attenuated);
-    //         });
-    //         return;
-    //     }
-    //     var nowoffset = this.getScrollOffset();
-    //     var p = cc.pSub(offset, nowoffset);
-    //     if (this.ScrollModel === ScrollModel.Horizontal) {
-    //         if (p.x > 0) {
-    //             this._scrollDirection = ScrollDirection.Left;
-    //         } else if (p.x < 0) {
-    //             this._scrollDirection = ScrollDirection.Right;
-    //         }
-    //     } else {
-    //         if (p.y > 0) {
-    //             this._scrollDirection = ScrollDirection.Up;
-    //         } else if (p.y < 0) {
-    //             this._scrollDirection = ScrollDirection.Down;
-    //         }
-    //     }
 
-    //     // this._super(offset, timeInSecond, attenuated);
-    // }
+    stopAutoScroll() {
+        if (this._scheduleInit) {
+            this.scheduleOnce(function () {
+                this.stopAutoScroll();
+            });
+            return;
+        }
+        this._scrollDirection = ScrollDirection.None;
+        super.stopAutoScroll();
+    }
+    scrollToBottom(timeInSecond?: number, attenuated?: boolean) {
+        if (this._scheduleInit) {
+            this.scheduleOnce(function () {
+                this.scrollToBottom(timeInSecond, attenuated);
+            });
+            return;
+        }
+        this._scrollDirection = ScrollDirection.Up;
+        super.scrollToBottom(timeInSecond, attenuated);
+    }
+    scrollToTop(timeInSecond?: number, attenuated?: boolean) {
+        if (this._scheduleInit) {
+            this.scheduleOnce(function () {
+                this.scrollToTop(timeInSecond, attenuated);
+            });
+            return;
+        }
+        this._scrollDirection = ScrollDirection.Down;
+        super.scrollToTop(timeInSecond, attenuated);
+    }
+    scrollToLeft(timeInSecond?: number, attenuated?: boolean) {
+        if (this._scheduleInit) {
+            this.scheduleOnce(function () {
+                this.scrollToLeft(timeInSecond, attenuated);
+            });
+            return;
+        }
+        this._scrollDirection = ScrollDirection.Right;
+        super.scrollToLeft(timeInSecond, attenuated);
+    }
+    scrollToRight(timeInSecond?: number, attenuated?: boolean) {
+        if (this._scheduleInit) {
+            this.scheduleOnce(function () {
+                this.scrollToRight(timeInSecond, attenuated);
+            });
+            return;
+        }
+        this._scrollDirection = ScrollDirection.Left;
+        super.scrollToRight(timeInSecond, attenuated);
+    }
+    scrollToOffset(offset: cc.Vec2, timeInSecond?: number, attenuated?: boolean) {
+        if (this._scheduleInit) {
+            this.scheduleOnce(function () {
+                this.scrollToOffset(offset, timeInSecond, attenuated);
+            });
+            return;
+        }
+        var nowoffset = this.getScrollOffset();
+        var p = cc.pSub(offset, nowoffset);
+        if (this.ScrollModel === ScrollModel.Horizontal) {
+            if (p.x > 0) {
+                this._scrollDirection = ScrollDirection.Left;
+            } else if (p.x < 0) {
+                this._scrollDirection = ScrollDirection.Right;
+            }
+        } else {
+            if (p.y > 0) {
+                this._scrollDirection = ScrollDirection.Up;
+            } else if (p.y < 0) {
+                this._scrollDirection = ScrollDirection.Down;
+            }
+        }
+
+        super.scrollToOffset(offset, timeInSecond, attenuated);
+    }
     //*******************************************************END*********************************************************//
 
     addScrollEvent(target, component, handler) {
@@ -968,7 +971,7 @@ export default class TableView extends cc.ScrollView {
 
     // called every frame, uncomment this function to activate update callback
     update(dt) {
-        // this._super(dt);
+        super.update(dt);
 
         if (!this._initSuccess || this._cellCount === this._showCellCount || this._pageTotal === 1) {
             return;

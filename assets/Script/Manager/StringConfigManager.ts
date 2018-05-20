@@ -9,17 +9,13 @@ class StringConfigManager {
     loadRes(callback) {
         cc.loader.loadRes('Config/StringCfg', (err, res) => {
             if (err == null) {
-                if (res.cfg) {
-                    this.m_config = res.cfg;
+                if (res) {
+                    this.m_config = res;
                 }
             }
 
             callback && callback(null, err);
         })
-    }
-
-    _getConfig() {
-        return this.m_config;
     }
 
     getStrByKey(key, lan = 'cn') {

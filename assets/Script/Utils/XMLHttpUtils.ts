@@ -5,7 +5,7 @@ import _ from 'lodash';
 // import fetch from 'cross-fetch';
 // import 'cross-fetch/polyfill';
 
-let HttpsUtil = {
+let XMLHttpUtil = {
     isDevEnv: function () {
         return HttpDEFINE.IsDev;
     },
@@ -31,7 +31,7 @@ let HttpsUtil = {
         if (a.exec(route)) {
             url = route;
         } else {
-            url = 'http://' + HttpsUtil.getHost() + '/';
+            url = 'http://' + XMLHttpUtil.getHost() + '/';
             url = url + (ROUTE_DATA[route] == null ? '' : ROUTE_DATA[route]);
         }
         var getParams = {};
@@ -46,7 +46,7 @@ let HttpsUtil = {
         return [url, getParams];
     },
     HTTPSGet: function (route: string, params: any, callback: Function = null, catchCallback: Function = null, extra: any = null) {
-        var [url, getParams] = HttpsUtil.createRoute(route, params);
+        var [url, getParams] = XMLHttpUtil.createRoute(route, params);
         //create query
         var queryParams = '?';
         for (var param in getParams) {
@@ -54,88 +54,41 @@ let HttpsUtil = {
         }
         queryParams = queryParams.substr(0, queryParams.length - 1);
         url = url + queryParams;
-        HttpsUtil.HttpRequest('GET', url, null, callback, catchCallback, extra);
+        XMLHttpUtil.HttpRequest('GET', url, null, callback, catchCallback, extra);
     },
     HTTPSPost: function (route: string, params: any, callback: Function = null, catchCallback: Function = null, extra: any = null) {
-        var [url, getParams] = HttpsUtil.createRoute(route, params);
+        var [url, getParams] = XMLHttpUtil.createRoute(route, params);
         //create query
         var bodyparams = {};
         for (var param in getParams) {
             bodyparams[param] = getParams[param];
         }
-        HttpsUtil.HttpRequest('POST', url, bodyparams, callback, catchCallback, extra);
+        XMLHttpUtil.HttpRequest('POST', url, bodyparams, callback, catchCallback, extra);
     },
     HttpRequest: function (type, url, params, callback, catchCallback, extra) {
-        let fetchParam = {};
-        if (type === 'GET') {
-            fetchParam = {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                credentials: 'include',
-            };
-        } else if (type === 'POST') {
-            fetchParam = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify(params)
-            };
-        }
         var status = 200;
         let shouldRet = false;
-        fetch(url, fetchParam)
-            .then((response) => {
-                status = response.status;
-                switch (response.status) {
-                    case 200: {
-                        var type = response.headers.get('Content-Type');
-                        if (type == null) {
-                            shouldRet = true;
-                            callback(null, null, extra);
-                            break;
-                        }
-                        if (type.search('application/json') !== -1) {
-                            return response.json();
-                        } else if (type.search('text') !== -1) {
-                            return response.text();
-                        } else {
-                            shouldRet = true;
-                            callback(null, null, extra);
-                        }
-                        break;
-                    }
-                    case 204: {
-                        shouldRet = true;
-                        callback(null, null, extra);
-                        break;
-                    }
-                    default: {
-                        return response.json();
-                    }
-                }
-            }).then((responseJson) => {
-                if (shouldRet) {
-                    return;
-                }
-                if (status === 200 || status === 204) {
-                    callback(null, responseJson, extra);
-                }
-                else {
-                    if (_.isFunction(catchCallback)) {
-                        catchCallback(responseJson, extra);
-                    } else {
-                        callback(responseJson, null, null);
-                    }
-                }
-            })
-            .catch((error) => {
-                console.error(JSON.stringify(error));
-            });
+
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status < 400)) {
+                var response = xhr.responseText;
+                var json = JSON.parse(response);
+                console.log(response, json);
+            }
+        }.bind(this);
+        xhr.onerror = () => { cc.log('wd debug onerror', arguments) }
+        xhr.ontimeout = () => { cc.log('wd debug onabontimeoutort', arguments) }
+        xhr.onabort = () => { cc.log('wd debug onabort', arguments) }
+        xhr.onloadstart = () => { cc.log('wd debug onloadstart', arguments) }
+        xhr.onloadend = () => { cc.log('wd debug onloadend', arguments) }
+        xhr.onabort = () => { cc.log('wd debug onabort', arguments) }
+        xhr.onprogress = () => { cc.log('wd debug onprogress', arguments) }
+        xhr.onreadystatechange = () => { cc.log('wd debug onreadystatechange', arguments) }
+        
+        xhr.open(type, url, true);
+        xhr.send();
     }
 };
 
-export default HttpsUtil;
+export default XMLHttpUtil;

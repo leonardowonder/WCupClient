@@ -12,9 +12,8 @@ class Cell extends ViewCell{
 
     init(index, data, reload, group) {
         this.m_label.string = index;
-        cc.log('wd init args =', arguments);
     }
     clicked() {
-        cc.log('wd clicked args =', arguments);
+        
     }
 };

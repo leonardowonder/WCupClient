@@ -17,10 +17,6 @@ class SceneIdConfigManager {
         })
     }
 
-    // _getConfig() {
-    //     return this.m_config;
-    // }
-
     getSceneIdByKey(key) {
         let ret = null;
         if (this.m_config) {

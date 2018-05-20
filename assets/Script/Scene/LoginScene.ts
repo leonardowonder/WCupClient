@@ -5,6 +5,7 @@ const {
 
 import SceneManager from '../Manager/SceneManager';
 import SceneIdConfigManager from '../Manager/SceneIdConfigManager';
+import StringUtils from '../Utils/StringUtils';
 import { EmSceneId } from '../Define/CommonDefine';
 import PrefabManager, { EmPrefabEnum } from '../Manager/PrefabManager';
 
