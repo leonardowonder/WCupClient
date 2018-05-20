@@ -22,6 +22,21 @@ class LoginScene extends cc.Component{
     onLoginClick() {
         // for (let i=0; i<5; ++i) {
         //     PrefabManager.showPrefab(EmPrefabEnum.Loading);
+        // }var params = {};
+        
+        // params.user = this.state.userName;
+        // params.password = this.state.pass;
+        // if (this.state.userName !== '' && this.state.pass !== '') {
+        //     HttpsUtil.HTTPSPost('Signin',
+        //         params,
+        //         this.onLoginComplete.bind(this),
+        //         function (err) {
+        //             notification['error']({
+        //                 message: '登陆',
+        //                 description: JSON.stringify(err)
+        //             });
+        //         }
+        //     );
         // }
         SceneManager.changeScene(SceneIdConfigManager.getSceneIdByKey(EmSceneId.MainScene));
     }
