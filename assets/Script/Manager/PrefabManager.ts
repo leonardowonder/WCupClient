@@ -16,7 +16,8 @@ class PrefabManager extends cc.Component {
         componentName: 'Loading'
     }];
 
-    _loadingList: number[] = []
+    _loadingList: number[] = [];
+    _unloadinglist: number[] = [];
 
     showPrefab(key: number, params: any[] = null, parentNode: cc.Node = null) {
         let component = this._getComponentByKey(key, parentNode);
@@ -25,23 +26,28 @@ class PrefabManager extends cc.Component {
             this._initPrefab(component.node, key, params);
         } else {
             if (this._canLoad(key)) {
-                this._loadingList.push(key);
+                this._pushLoadingList(key);
                 cc.loader.loadRes(PrefabManager.s_prefabConfig[key].path, (err, res) => {
-                    if (err == null) {
-                        let prefab: cc.Node = cc.instantiate(res);
-                        this._initPrefab(prefab, key, params);
-
-                        let rootNode: cc.Node = parentNode;
-                        if (!rootNode) {
-                            rootNode = this._getCanvasNode();
+                    if (!this._hasBeenUnloaded(key)) {
+                        if (err == null) {
+                            let prefab: cc.Node = cc.instantiate(res);
+                            this._initPrefab(prefab, key, params);
+    
+                            let rootNode: cc.Node = parentNode;
+                            if (!rootNode) {
+                                rootNode = this._getCanvasNode();
+                            }
+                            prefab.setPosition(0, 0);
+                            rootNode.addChild(prefab);
                         }
-                        prefab.setPosition(0, 0);
-                        rootNode.addChild(prefab);
+                        else {
+                            cc.warn('PrefabManager showPrefab load res fail, err =', err);
+                        }
                     }
                     else {
-                        cc.warn('PrefabManager showPrefab load res fail, err =', err);
+                        this._removeFromUnloadingList(key);
                     }
-                    this._removeFromLoadList(key);
+                    this._removeFromLoadingList(key);
                 })
             }
             else {
@@ -51,6 +57,9 @@ class PrefabManager extends cc.Component {
     }
 
     hidePrefab(key: number, parentNode: cc.Node = null) {
+        if (this._prefabLoading(key)) {
+            this._pushUnloadingList(key);
+        }
         let component = this._getComponentByKey(key, parentNode);
         if (component) {
             component.node.active = false;
@@ -101,18 +110,52 @@ class PrefabManager extends cc.Component {
         }
     }
 
-    _removeFromLoadList(key: number) {
+    _pushLoadingList(key: number) {
+        this._loadingList.push(key);
+    }
+
+    _removeFromLoadingList(key: number) {
         _.remove(this._loadingList, (value: number) => {
             return value == key;
         })
     }
 
+    _prefabLoading(key: number) {
+        let idx = _.findIndex(this._loadingList, (value) => {
+            return value == key;
+        })
+
+        return idx != -1;
+    }
+
     _canLoad(key: number) {
-        let idx = this._loadingList.findIndex((value, index, arr): boolean => {
+        let idx = _.findIndex(this._loadingList, (value) => {
             return value == key;
         })
 
         return idx == -1;
+    }
+    
+    _pushUnloadingList(key: number) {
+        if (-1 == _.findIndex(this._unloadinglist, (value) => {
+            return value == key;
+        })) {
+            this._unloadinglist.push(key);
+        }
+    }
+
+    _removeFromUnloadingList(key: number) {
+        _.remove(this._unloadinglist, (value: number) => {
+            return value == key;
+        })
+    }
+
+    _hasBeenUnloaded(key: number) {
+        let idx = _.findIndex(this._unloadinglist, (value) => {
+            return value == key;
+        })
+
+        return idx != -1;
     }
 }
 
